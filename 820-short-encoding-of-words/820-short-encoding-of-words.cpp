@@ -1,9 +1,3 @@
-static int z = [] {
-    cin.sync_with_stdio(false);
-    cin.tie(nullptr);
-    return 0;
-}();
-
 class Solution {
 public:
     int minimumLengthEncoding(vector<string>& words) {
