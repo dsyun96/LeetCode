@@ -4,12 +4,11 @@ public:
         sort(courses.begin(), courses.end(), [](auto& a, auto& b) { return a[1] < b[1]; });
         
         priority_queue<int> PQ;
-        int cnt = 0, sum = 0;
+        int sum = 0;
         for (auto& course : courses) {
             if (sum + course[0] <= course[1]) {
                 sum += course[0];
                 PQ.emplace(course[0]);
-                ++cnt;
             }
             else if (!PQ.empty() && PQ.top() > course[0]) {
                 sum -= PQ.top(); PQ.pop();
@@ -18,6 +17,6 @@ public:
             }
         }
         
-        return cnt;
+        return PQ.size();
     }
 };
