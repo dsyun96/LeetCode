@@ -1,26 +1,24 @@
 class Solution {
 public:
+    unordered_map<int, bool> pa;
+    
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> S;
-        for (int i : nums) S.insert(i);
+        for (int i : nums) pa[i] = 1;
         
-        int ans = 0;
-        for (int i : nums) if (S.find(i) != S.end()) {
-            int len = 1;
-            S.erase(i);
-            
-            for (int j = i - 1; S.find(j) != S.end(); --j) {
-                ++len;
-                S.erase(j);
+        int ret = 0;
+        for (auto &it : pa) if (it.second) {
+            int sub = 1;
+            for (int i = it.first + 1; pa.find(i) != pa.end(); ++i) {
+                ++sub;
+                pa[i] = 0;
             }
-            for (int j = i + 1; S.find(j) != S.end(); ++j) {
-                ++len;
-                S.erase(j);
+            for (int i = it.first - 1; pa.find(i) != pa.end(); --i) {
+                ++sub;
+                pa[i] = 0;
             }
-            
-            ans = max(ans, len);
+            ret = max(ret, sub);
         }
         
-        return ans;
+        return ret;
     }
 };
