@@ -9,7 +9,7 @@ public:
             }
         }
         
-        unordered_map<int, int> dic[100][100];
+        map<int, int> dic[100][100];
         long long ans = 0;
         for (int i = 0; i < m; ++i) {
             for (int j = i; j < m; ++j) {
