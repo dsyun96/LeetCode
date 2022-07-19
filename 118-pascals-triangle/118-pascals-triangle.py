@@ -1,3 +1,6 @@
+import sys
+input = lambda: sys.stdin.readline().rstrip()
+
 class Solution:
     def generate(self, numRows: int) -> List[List[int]]:
         ret = [[1]]
