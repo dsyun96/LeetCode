@@ -12,24 +12,13 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        auto go = [&](auto& self, TreeNode* now) -> TreeNode* {
-            if (now == nullptr) return nullptr;
+        for (; root; root = root->right) if (root->left) {
+            auto tmp = root->left;
+            while (tmp->right) tmp = tmp->right;
             
-            TreeNode* ret = now;
-            TreeNode* right = now->right;
-            if (now->left) {
-                ret = self(self, now->left);
-                ret->right = now->right;
-                now->right = now->left;
-                now->left = nullptr;
-            }
-            if (right) {
-                ret = self(self, right);
-            }
-            
-            return ret;
-        };
-        
-        go(go, root);
+            tmp->right = root->right;
+            root->right = root->left;
+            root->left = nullptr;
+        }
     }
 };
