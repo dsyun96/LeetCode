@@ -1,25 +1,36 @@
 class NumArray {
 public:
-    static const int SZ = 1 << 15;
-    int tree[SZ << 1];
+    int fw[30001];
     
     NumArray(vector<int>& nums) {
-        for (int i = 0; i < nums.size(); ++i) tree[SZ + i] = nums[i];
-        for (int i = SZ; --i; ) tree[i] = tree[i << 1] + tree[i << 1 | 1];
+        memset(fw, 0, sizeof fw);
+        for (int i = 0; i < nums.size(); ++i) update(i, nums[i]);
     }
     
     void update(int index, int val) {
-        for (tree[index += SZ] = val; index >>= 1; )
-            tree[index] = tree[index << 1] + tree[index << 1 | 1];
+        int now = query(index) - query(index - 1);
+        ++index;
+        
+        val -= now;
+        while (index <= 30000) {
+            fw[index] += val;
+            index += index & -index;
+        }
+    }
+    
+    int query(int index) {
+        ++index;
+        
+        int ret = 0;
+        while (index) {
+            ret += fw[index];
+            index -= index & -index;
+        }
+        return ret;
     }
     
     int sumRange(int left, int right) {
-        int ret = 0;
-        for (left += SZ, right += SZ; left <= right; left >>= 1, right >>= 1) {
-            if (left & 1) ret += tree[left++];
-            if (~right & 1) ret += tree[right--];
-        }
-        return ret;
+        return query(right) - query(left - 1);
     }
 };
 
