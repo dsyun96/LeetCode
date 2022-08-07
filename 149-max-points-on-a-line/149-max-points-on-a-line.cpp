@@ -5,7 +5,7 @@ public:
         for (int i = 0; i < points.size(); ++i) {
             int x1 = points[i][0], y1 = points[i][1];
             
-            map<pair<int, int>, int> cnt;
+            unordered_map<int, int> cnt;
             int mx = 0;
             for (int j = 0; j < points.size(); ++j) if (i != j) {
                 int x2 = points[j][0], y2 = points[j][1];
@@ -17,7 +17,7 @@ public:
                 int g = gcd(dx, dy);
                 dx /= g, dy /= g;
                 
-                mx = max(mx, ++cnt[make_pair(dx, dy)]);
+                mx = max(mx, ++cnt[(dx + 20000) * 40001 + dy + 20000]);
             }
             
             ans = max(ans, mx);
